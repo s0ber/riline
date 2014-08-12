@@ -31,6 +31,8 @@ Riline = class
     for message in @messages
       @printMessage(message)
 
+    return
+
   printMessage: (message) ->
     message.endLine = message.startLine unless message.endLine?
 
