@@ -4,9 +4,9 @@ Riline
 
 Utility for logging lines of code from a text string (or file).
 
-## Hot To Use
+## Hot to use
 
-Initialized riline object constructor gets text string as a parameter, then you can log parts of this text string in a console with some warning message.
+Initialized riline object constructor gets text string as a parameter, then you can log parts of this text string in a console with some warning messages.
 
 ```coffee
 Riline = require('../src/riline')
