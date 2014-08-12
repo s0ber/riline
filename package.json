@@ -12,6 +12,7 @@
     "url": "git://github.com/s0ber/riline.git"
   },
   "dependencies": {
+    "underscore": ""
   },
   "devDependencies": {
     "coffee-script": "~1.7.1",
