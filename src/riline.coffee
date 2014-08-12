@@ -1,4 +1,8 @@
 _ = require 'underscore'
+colors = require 'colors'
+
+colors.setTheme
+  warning: 'yellow'
 
 LINES_AROUND = 3
 LINE_BREAK = '\n'
@@ -6,7 +10,7 @@ INDENTATION = '  '
 
 Riline = class
 
-  constructor: (text) ->
+  constructor: (text, @highlightLines = true) ->
     @text = text
     @messages = []
 
@@ -37,7 +41,12 @@ Riline = class
     message.endLine = message.startLine unless message.endLine?
 
     messageText = LINE_BREAK
-    messageText += "#{message.type.toUpperCase()}: "
+
+    if @highlightLines
+      messageText += "#{message.type.toUpperCase()}".underline + ': '
+    else
+      messageText += "#{message.type.toUpperCase()}: "
+
     messageText += message.text + ", line #{message.startLine}"+ LINE_BREAK
 
     if message.startLine < 1 or message.startLine > @linesNumber()
@@ -61,9 +70,16 @@ Riline = class
     for i in [start..end]
       lineNumber = @numberWithZeros(i, end.toString().length)
       line = @getLine(i)
-      messageText += INDENTATION + lineNumber
-      messageText += INDENTATION unless line.length is 1
-      messageText += line
+      lineText = ''
+      lineText += ' ' + lineNumber
+      lineText += INDENTATION unless line.length is 1
+      lineText += line
+
+      # this will highlight target lines with type color
+      if @highlightLines and i >= message.startLine and i <= message.endLine
+        lineText = lineText[message.type]
+
+      messageText += lineText
 
     @log(messageText)
 

@@ -6,7 +6,7 @@ describe 'Riline', ->
 
   beforeEach ->
     @text = fs.readFileSync('./spec/fixtures/slim_document.slim').toString()
-    @riline = new Riline(@text)
+    @riline = new Riline(@text, false)
 
   describe '#contructor', ->
     it 'saves provided text string in @text', ->
@@ -44,10 +44,10 @@ describe 'Riline', ->
         expect(@riline.log.lastCall.args[0]).to.be.equal """
 
           WARNING: Some text message, line 1
-            1  doctype html
-            2  html
-            3    head
-            4      title\n
+           1  doctype html
+           2  html
+           3    head
+           4      title\n
           """
 
     context 'it is one of the first lines', ->
@@ -58,17 +58,17 @@ describe 'Riline', ->
         expect(@riline.log.lastCall.args[0]).to.be.equal """
 
           WARNING: Some text message, line 2
-            01  doctype html
-            02  html
-            03    head
-            04      title
-            05        | Rails App Template
-            06      = stylesheet_link_tag 'application', media: 'all'
-            07      = javascript_include_tag 'application'
-            08      = csrf_meta_tags
-            09
-            10    body.layout data={app: 'app'}
-            11      .layout-main\n
+           01  doctype html
+           02  html
+           03    head
+           04      title
+           05        | Rails App Template
+           06      = stylesheet_link_tag 'application', media: 'all'
+           07      = javascript_include_tag 'application'
+           08      = csrf_meta_tags
+           09
+           10    body.layout data={app: 'app'}
+           11      .layout-main\n
           """
 
     context 'it is middle of a text string', ->
@@ -79,15 +79,15 @@ describe 'Riline', ->
         expect(@riline.log.lastCall.args[0]).to.be.equal '''
 
           WARNING: Some text message, line 71
-            68                        color: red
-            69                      }
-            70
-            71                    :javascript
-            72                      $('.page-body')
-            73                        .append('<div class="my_class is-blue">This #{a} is appended by js.</div>')
-            74
-            75                    - unescaped_text = '<span class="my_class is-red">unescaped html</span>'
-            76                    :javascript\n
+           68                        color: red
+           69                      }
+           70
+           71                    :javascript
+           72                      $('.page-body')
+           73                        .append('<div class="my_class is-blue">This #{a} is appended by js.</div>')
+           74
+           75                    - unescaped_text = '<span class="my_class is-red">unescaped html</span>'
+           76                    :javascript\n
           '''
 
     context 'it is near the end of a text string', ->
@@ -98,13 +98,14 @@ describe 'Riline', ->
         expect(@riline.log.lastCall.args[0]).to.be.equal '''
 
           WARNING: Some text message, line 117
-            114            | it was false...
-            115
-            116      footer.layout-footer
-            117        .layout-footer_inner
-            118          .footer
-            119            | Footer text here\n
+           114            | it was false...
+           115
+           116      footer.layout-footer
+           117        .layout-footer_inner
+           118          .footer
+           119            | Footer text here\n
           '''
+
     context 'it is the end of a text string', ->
       it 'prints messages to console', ->
         @riline.addMessage text: 'Some text message', startLine: 119
@@ -113,10 +114,10 @@ describe 'Riline', ->
         expect(@riline.log.lastCall.args[0]).to.be.equal '''
 
           WARNING: Some text message, line 119
-            116      footer.layout-footer
-            117        .layout-footer_inner
-            118          .footer
-            119            | Footer text here\n
+           116      footer.layout-footer
+           117        .layout-footer_inner
+           118          .footer
+           119            | Footer text here\n
           '''
 
   describe '#linesNumber', ->
